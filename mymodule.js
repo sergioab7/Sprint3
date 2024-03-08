@@ -1,13 +1,12 @@
-const fs = require("node:fs/promises");
-const path = require("path");
+const fs = require('fs');
 
-function readDirectory(directory, extension, callback) {
-    fs.readdir(directory, (err,files) => {
-        if(err) throw err;
-        
-        const filteresFiles = files.filter(file => path.extname(file) === `.${extension}`);
-        callback(null, filteresFiles);
-    })
-}
+module.exports = function (directory, extension, callback) {
+    fs.readdir(directory, (err, files) => {
+        if (err) {
+            return callback(err); 
+        }
 
-module.exports = readDirectory;
+        const filteredFiles = files.filter(file => file.endsWith('.' + extension));
+        callback(null, filteredFiles);
+    });
+};
